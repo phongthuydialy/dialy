@@ -7,7 +7,7 @@ from datetime import date, timedelta, datetime
 import pytz
 import numpy as np
 import random
-
+import requests
 
 st.set_page_config(layout="wide")
 def main():
