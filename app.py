@@ -66,7 +66,7 @@ def main():
     
         # Nếu chưa chọn gì → hiển thị mặc định bản đồ đầu tiên
         if st.session_state.selected_idx is None:
-            default_html = html_files[0]
+            default_html = random.choice(html_files)
             html_path = os.path.join(html_dir, default_html)
             st.subheader(f"📍 Bản đồ mặc định: {default_html}")
             with open(html_path, 'r', encoding='utf-8') as f:
