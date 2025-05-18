@@ -1,12 +1,3 @@
 streamlit
 pandas
-matplotlib
-pyswisseph
-numpy
-requests
-rasterio
-pyproj
-contextily
-Pillow
-scipy
-fpdf
+
