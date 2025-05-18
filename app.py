@@ -107,7 +107,7 @@ def main():
     st.image("https://sosrff.tsu.ru/new/shm.jpg", caption="Schumann Resonance - Live", use_container_width=True)
     
     st.markdown("""
-    ### 4.🧲 Dữ liệu địa từ trực tuyến""")
+    ### 3.🧲 Dữ liệu địa từ trực tuyến""")
     start_date = (datetime.today() - timedelta(days=15)).strftime('%Y-%m-%d')
     end_date = datetime.today().strftime('%Y-%m-%d')
     iframe_url = f"https://imag-data.bgs.ac.uk/GIN_V1/GINForms2?" \
@@ -118,7 +118,7 @@ def main():
     st.components.v1.iframe(iframe_url, height=1000,scrolling=True)
     
     st.markdown("""
-    ###  3.Chỉ số Kp – Cảnh báo Bão Từ
+    ###  4.Chỉ số Kp – Cảnh báo Bão Từ
     """)
     
     kp_url = "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json"
@@ -167,7 +167,7 @@ def main():
    
     
     st.markdown("""
-    ### 4.MÔ HÌNH LẠC THƯ 3X3 VÀ BẬC CAO VÔ TẬN
+    ### 5.MÔ HÌNH LẠC THƯ 3X3 VÀ BẬC CAO VÔ TẬN
     """)
     
     # Nhập bậc của ma phương
