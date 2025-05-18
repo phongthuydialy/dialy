@@ -3,16 +3,11 @@ import os
 import pandas as pd
 import streamlit.components.v1 as components
 import math
-from datetime import date, timedelta, datetime
-import swisseph as swe
+
 import pytz
-import matplotlib.pyplot as plt
-import matplotlib.cm as cm
-import matplotlib.colors as mcolors
+
 import random
-import numpy as np
-import requests
-import os
+
 
 st.set_page_config(layout="wide")
 def main():
