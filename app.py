@@ -20,7 +20,7 @@ def main():
     """, unsafe_allow_html=True)
     
     st.markdown("""
-    ### 2.PHONG THỦY ĐỊA LÝ – BẢN ĐỒ ĐỊA MẠCH
+    ### 1.PHONG THỦY ĐỊA LÝ – BẢN ĐỒ ĐỊA MẠCH
     """)
     
     # Khởi tạo session state
@@ -101,7 +101,7 @@ def main():
       
     
     st.markdown("""
-    ### 3.🌐Biểu đồ cộng hưởng Schumann Trái Đất trực tuyến
+    ### 2.🌐Biểu đồ cộng hưởng Schumann Trái Đất trực tuyến
     Nguồn: [Tomsk, Russia Space Observing System]
     """)
     st.image("https://sosrff.tsu.ru/new/shm.jpg", caption="Schumann Resonance - Live", use_container_width=True)
@@ -118,7 +118,7 @@ def main():
     st.components.v1.iframe(iframe_url, height=1000,scrolling=True)
     
     st.markdown("""
-    ###  Chỉ số Kp – Cảnh báo Bão Từ
+    ###  3.Chỉ số Kp – Cảnh báo Bão Từ
     """)
     
     kp_url = "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json"
@@ -167,7 +167,7 @@ def main():
    
     
     st.markdown("""
-    ### 5.MÔ HÌNH LẠC THƯ 3X3 VÀ BẬC CAO VÔ TẬN
+    ### 4.MÔ HÌNH LẠC THƯ 3X3 VÀ BẬC CAO VÔ TẬN
     """)
     
     # Nhập bậc của ma phương
