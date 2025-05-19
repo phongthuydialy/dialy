@@ -14,8 +14,8 @@ def main():
     
     st.markdown("""
     <div style="background:linear-gradient(90deg,#f9d423,#ff4e50);padding:24px 8px 20px 8px;border-radius:16px;margin-bottom:24px;">
-        <h1 style='color:white;text-align:center;margin:0;font-size:36px;'>🔯 ỨNG DỤNG  ĐỊA LÝ & CHIÊM TINH </h1>
-        <p style='color:white;text-align:center;font-size:20px;margin:0;'>Kết hợp Chiêm tinh, Địa mạch, số liệu Từ trường</p>
+        <h1 style='color:white;text-align:center;margin:0;font-size:36px;'>🔯 ỨNG DỤNG  ĐỊA LÝ </h1>
+        <p style='color:white;text-align:center;font-size:20px;margin:0;'>Kết hợp Địa mạch, số liệu Từ trường</p>
     </div>
     """, unsafe_allow_html=True)
     
