@@ -166,48 +166,120 @@ def main():
     
    
     
+  
     st.markdown("""
-    ### 5.MÔ HÌNH LẠC THƯ 3X3 VÀ BẬC CAO VÔ TẬN
+    ### 5. MÔ HÌNH MA PHƯƠNG
     """)
     
-    # Nhập bậc của ma phương
-    n = st.number_input("Nhập bậc lẻ n (>=3):", min_value=3, step=2, value=9)
+    # Bảng ánh xạ bậc ma phương → hành tinh (theo yêu cầu riêng của bạn)
+    planet_map = {
+        3: "Thổ tinh (Saturn)",
+        4: "Mộc tinh (Jupiter)",
+        5: "Hỏa tinh (Mars)",
+        6: "Mặt Trời (Sun)",
+        7: "Kim tinh (Venus)",
+        8: "Thủy tinh (Mercury)",
+        9: "Mặt Trăng (Moon)"
+    }
+    
+    n = st.number_input("Nhập bậc ma phương:", min_value=3, step=1, value=4)
+    hanh_tinh = planet_map.get(n, "")
+    
+    st.markdown(f"**→ Bậc {n} tương ứng với hành tinh:** 🪐 __{hanh_tinh}__")
+    
+    def magic_square_6_custom():
+        return np.array([
+            [6, 32, 3, 34, 35, 1],
+            [7, 11, 27, 28, 8, 30],
+            [19, 14, 16, 15, 23, 24],
+            [18, 20, 22, 21, 17, 13],
+            [25, 29, 10, 9, 26, 12],
+            [36, 5, 33, 4, 2, 31]
+        ])
+    
+    def magic_square_doubly_even(n):
+        square = np.arange(1, n*n+1).reshape(n, n)
+        mask = np.zeros((n, n), dtype=bool)
+        for i in range(n):
+            for j in range(n):
+                if (i % 4 == j % 4) or ((i % 4 + j % 4) == 3):
+                    mask[i, j] = True
+        square[mask] = n*n + 1 - square[mask]
+        return square
     
     def generate_magic_square_southeast(n):
         if n % 2 == 0:
             raise ValueError("Chỉ hỗ trợ ma phương bậc lẻ.")
         square = np.zeros((n, n), dtype=int)
-        # Bắt đầu từ vị trí gần tâm: (tâm hàng + 1, tâm cột)
         i, j = n // 2 + 1, n // 2
-    
         for num in range(1, n * n + 1):
             square[i % n, j % n] = num
-            
-            # Vị trí kế tiếp theo hướng Đông Nam
             new_i, new_j = (i + 1) % n, (j + 1) % n
-    
             if square[new_i, new_j] != 0:
-                # Nếu bị trùng, thì nhảy xuống thêm 1 hàng
                 i = (i + 2) % n
             else:
                 i, j = new_i, new_j
-    
         return square
-    # Xác định hàng và cột trung tâm
-    center_index = n // 2
     
-    # Hàm tô màu các ô thuộc hàng/cột trung tâm
-    def highlight_center(row_or_col, axis='row'):
-        return ['background-color: orange' if (i == center_index if axis == 'row' else row_or_col.name == center_index) else '' for i in range(len(row_or_col))]
+    def singly_even_magic(n):
+        def odd_magic(m):
+            magic = np.zeros((m, m), dtype=int)
+            i, j = 0, m // 2
+            for k in range(1, m*m + 1):
+                magic[i, j] = k
+                i2, j2 = (i - 1) % m, (j + 1) % m
+                if magic[i2, j2]:
+                    i = (i + 1) % m
+                else:
+                    i, j = i2, j2
+            return magic
     
-    # --- MAIN ---
+        m = n // 2
+        mini_square = odd_magic(m)
+        square = np.zeros((n, n), dtype=int)
+        add = [0, 2*m*m, 3*m*m, m*m]
+        for i in range(2):
+            for j in range(2):
+                square[i*m:(i+1)*m, j*m:(j+1)*m] = mini_square + add[i*2+j]
+        k = (n - 2) // 4
+        for i in range(m):
+            for j in range(n):
+                if (j < k or j >= n - k):
+                    if not (j == 0 and i == k):
+                        square[i, j], square[i+m, j] = square[i+m, j], square[i, j]
+        j = k
+        for i in range(m):
+            square[i, j], square[i+m, j] = square[i+m, j], square[i, j]
+        return square
+    
     try:
-        square = generate_magic_square_southeast(n)
+        # Dùng ma phương custom cho bậc 6
+        if n == 6:
+            square = magic_square_6_custom()
+            phan_loai = "Mặt Trời- Surya yantra"
+        elif n % 2 == 1:
+            square = generate_magic_square_southeast(n)
+            phan_loai = "Bậc lẻ (kiểu Đông Nam, xuất phát gần tâm)"
+        elif n % 4 == 0:
+            square = magic_square_doubly_even(n)
+            phan_loai = "Chẵn chia hết cho 4"
+            square = np.flipud(square)
+        else:
+            square = singly_even_magic(n)
+            phan_loai = "Chẵn lẻ (không chia hết cho 4)"
         df = pd.DataFrame(square)
-        st.dataframe(df, use_container_width=False)
+        st.write(f"**Ma phương loại:** {phan_loai}")
+        styled_df = df.style.set_properties(**{
+        'font-size': '18px',      # Đổi cỡ chữ
+        'font-weight': 'bold',    # Đậm
+        'text-align': 'center'
+        })
     
-        # --- Kiểm tra tổng ---
-        
+        # Hiển thị với Streamlit
+        st.dataframe(styled_df, use_container_width=False)
+    
+    
+        # Kiểm tra tổng
         row_sums = df.sum(axis=1)
         col_sums = df.sum(axis=0)
         diag1 = np.trace(square)
@@ -215,10 +287,10 @@ def main():
         magic_const = n * (n ** 2 + 1) // 2
     
         st.markdown(f"- Tổng chuẩn (magic constant): **{magic_const}**")
-        st.markdown(f"- Tổng hàng: **{row_sums.iloc[0]}**")
-        st.markdown(f"- Tổng cột: **{col_sums.iloc[0]}**")
-        st.markdown(f"- Tổng đường chéo chính: {diag1}")
-        st.markdown(f"- Tổng đường chéo phụ: {diag2}")
+        st.markdown(f"- Tổng hàng 1: **{row_sums.iloc[0]}**")
+        st.markdown(f"- Tổng cột 1: **{col_sums.iloc[0]}**")
+        st.markdown(f"- Tổng đường chéo chính: **{diag1}**")
+        st.markdown(f"- Tổng đường chéo phụ: **{diag2}**")
     
         if (
             all(row_sums == magic_const)
@@ -226,21 +298,25 @@ def main():
             and diag1 == magic_const
             and diag2 == magic_const
         ):
-            st.success("Ma phương hợp lệ!")
+            st.success("✅ Ma phương hợp lệ!")
         else:
             st.warning("⚠️ Ma phương này KHÔNG hợp lệ.")
     
-        
-        # --- BẢNG MODULO 9 ---
-        st.markdown("#### Bảng ma phương chia hết cho 9:")  
+        # Bảng chia hết cho 9
+        st.markdown("#### Bảng ma phương chia hết cho 9:")
         df_mod9 = (df % 9).replace(0, 9)
         st.dataframe(df_mod9, use_container_width=False)
-       
         tong_cot_dau = df_mod9.iloc[:, 0].sum()
-        st.markdown(f"🧾 Tổng mỗi cột: **{tong_cot_dau}**")
-    
+        st.markdown(f"🧾 Tổng cột đầu: **{tong_cot_dau}**")
+        # Bảng chia hết cho 10
+        st.markdown("#### Bảng ma phương chia hết cho 10:")
+        df_mod10 = (df % 10)
+        st.dataframe(df_mod10, use_container_width=False)
+        tong_cot_dau = df_mod10.iloc[:, 0].sum()
+        st.markdown(f"🧾 Tổng cột đầu: **{tong_cot_dau}**")
     except Exception as e:
         st.error(f"Lỗi: {e}")
+
     
     st.markdown("---\n### Tác giả Nguyễn Duy Tuấn – với mục đích phụng sự tâm linh và cộng đồng. SĐT&ZALO: 0377442597. DONATE: nguyenduytuan techcombank 19033167089018")
 
