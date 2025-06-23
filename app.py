@@ -31,7 +31,7 @@ def main():
     html_files = sorted([f for f in os.listdir(html_dir) if f.endswith(".html")])
     df = pd.DataFrame({"Tên công trình": html_files})
     # Phân trang
-    per_page = 5
+    per_page = 10
     total_pages = math.ceil(len(df) / per_page)
     page = st.number_input(f"📄 Trang (1–{total_pages}):", min_value=1, max_value=total_pages, value=1, step=1)
     
